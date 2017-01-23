@@ -1,0 +1,239 @@
+/**
+ * styles.css
+ *
+ * Computer Science 50
+ * Problem Set 7
+ *
+ * Global CSS.
+ */
+
+.container
+{
+    /* center contents */
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+#top
+{
+    /* surround with whitespace */
+    margin-bottom: 15px;
+    margin-top: 15px;
+}
+
+#top .nav
+{
+    /* center navigation pills */
+    display: inline-block;
+}
+
+#middle .form-control
+{
+    /* center form controls */
+    display: inline-block;
+
+    /* override Bootstrap's 100% width for form controls */
+    width: auto;
+}
+
+.paragraph
+{
+    text-align: justify;
+    width: 800px;
+    margin-left: 150px;
+}
+
+.rec
+{
+    text-align: center;
+    width: 800px;
+    margin-left: 150px;
+}
+
+.bottom
+{
+    /* shrink bottom's font size */
+    font-size: smaller;
+
+    /* surround with whitespace */
+    margin: 20px;
+    height: 60px;
+     
+}
+
+.food_table
+{
+    position: relative;
+    left: 30px;
+}
+
+#table
+{
+    min-width: 450px;
+    margin-left:25%; 
+    border: 1px solid black;
+    width: 50%;
+    text-align: left;
+}
+
+#search_table
+{
+    min-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+}
+
+#search_logo
+{
+    height: 55px;
+    width: 350px;
+    margin-right:300px;
+    margin-top:-160px;
+}
+#search_form_button
+{
+    margin-right:-300px;
+    margin-top:-87px;
+}
+.error
+{
+    color: red;
+}
+
+.success
+{
+    color: green;
+}
+
+/*----- Table Formatting -----*/
+DIV.table 
+{
+    display:table;
+}
+FORM.tr, DIV.tr
+{
+    display:table-row;
+}
+.td0:hover, .td1:hover
+{
+    cursor:pointer;
+}
+SPAN.td0
+{
+    display:table-cell;
+    position: relative;
+    left:80px;
+}
+SPAN.td1
+{
+    display:table-cell;
+    position: relative;
+    left: 85px;
+}
+SPAN.td2
+{
+    display:table-cell;
+    position: absolute;
+  /*  right: 300px;*/
+    left: 800px;
+}
+SPAN.td3
+{
+    display:table-cell;
+    position: absolute;
+    /*right: 200px;*/
+    left:1000px;
+}
+
+
+/*----- Menu Outline -----*/ 
+.clearfix:after {
+    display:block;
+    clear:both;
+}
+ 
+.menu-wrap {
+    width:100%;
+    box-shadow:0px 1px 3px rgba(0,0,0,0.2);
+    background:#3e3436;
+    min-width: 1000px;
+}
+ 
+.menu {
+    width:1000px;
+    margin:0px auto;
+}
+ 
+.menu li {
+    margin:0px;
+    list-style:none;
+    font-family:'Ek Mukta';
+}
+ 
+.menu a {
+    transition:all linear 0.35s;
+    color:#919191;
+}
+ 
+.menu li:hover > a, .menu .current-item > a {
+    text-decoration:none;
+    color:#be5b70;
+}
+ 
+.menu .arrow {
+    font-size:11px;
+    line-height:0%;
+}
+ 
+/*----- Top Level -----*/
+.menu > ul > li {
+    float:left;
+    display:inline-block;
+    position:relative;
+    font-size:19px;
+}
+ 
+.menu > ul > li > a {
+    padding:10px 40px;
+    display:inline-block;
+    text-shadow:0px 1px 0px rgba(0,0,0,0.4);
+}
+ 
+.menu > ul > li:hover > a, .menu > ul > .current-item > a {
+    background:#2e2728;
+}
+ 
+/*----- Bottom Level -----*/
+.menu li:hover .sub-menu {
+    z-index:1;
+    opacity:1;
+}
+ 
+.sub-menu {
+    width:160%;
+    padding:5px 0px;
+    position:absolute;
+    top:100%;
+    left:0px;
+    z-index:-1;
+    opacity:0;
+    transition:opacity linear 0.15s;
+    box-shadow:0px 2px 3px rgba(0,0,0,0.2);
+    background:#2e2728;
+}
+ 
+.sub-menu li {
+    display:block;
+    font-size:16px;
+}
+ 
+.sub-menu li a {
+    padding:10px 30px;
+    display:block;
+}
+ 
+.sub-menu li a:hover, .sub-menu .current-item a {
+    background:#3e3436;
+}
