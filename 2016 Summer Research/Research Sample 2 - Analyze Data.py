@@ -196,8 +196,9 @@ def gen_graph(mech, matrix, place, category):
 	plt.show()
 
 # Determine the average incentives for particular state and business category
-def run(file, state, category):
-	processed = data_from_json("state_votes", DIMENSION)
+# and produce a plot comparing the different strategies
+def run(file, state, category, dimension):
+	processed = data_from_json(file, dimension)
 	averages = get_averages(processed)
 	mechanisms = ["Kamble", "RPTS", "CA"]
 	for cat in averages[state]:
