@@ -1,0 +1,3 @@
+Here's a sample of the code I produced this summer to analyze millions of crowdsourced answers collected by Google. The total project was a couple thousand lines in total, all of which I wrote.
+
+Sample 1 has a some functions that will parse the data files Google gave to me and Sample 2 will output some graphs and other statistics once the data is analyzed.  The functions and code that control the actual analysis I unfortunately can’t include here.
