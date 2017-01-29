@@ -106,6 +106,9 @@ def build_joint_dict(filename, n, ordering = (0,1,2), debug = False):
 	csvfile.close()
 	return organized
 
+# Calculate the nxn delta matrices from a given data set and determine if it has
+# the categorical property.  Create a hash table with these results and save the
+# results in a json file so they don't have to be recomputed. 
 def get_delta_categorical(filename, n):
 	# Load the Data 
 	print "Categorical by question type " + filename + " " + str(n) + "x" + str(n)
@@ -153,8 +156,6 @@ def get_delta_categorical(filename, n):
 	with open(filename[0:(len(filename) - 4)] + " delta & categorical " + str(n) + "x" + str(n)+ ".json", 'w') as f:
 		f.write(json.dumps(results))
 	return results
-#print len(get_delta_categorical("pairwise_v2.csv", sys.argv[1]))
-
 
 # Get some basic summary statistics
 type_dict = question_types()
@@ -165,7 +166,6 @@ sub_count = 0
 fac_count = 0
 with open("Data/state_votes.csv",'rU') as csvfile:
 	for row in csv.reader(csvfile):
-
 		if count == 1:
 			count += 1
 			continue

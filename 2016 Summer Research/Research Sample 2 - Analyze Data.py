@@ -39,6 +39,7 @@ def get_averages(processed):
 			}
 	return averages
 
+# Check if the delta matrices have a certain property
 def has_property(prop, property_name):
 	print property_name
 	has = 0
@@ -70,6 +71,7 @@ def get_matrix_type(mech):
 		return "joint"
 	else:
 		raise ValueError("Not a valid scoring mechanism")
+
 def get_paper_name(mech):
 	if mech == "CA":
 		return "CAH"
@@ -79,8 +81,8 @@ def get_paper_name(mech):
 		return "RPTS"
 
 
-# Calculated the expected score if everyone if responding truthful 
-# for a given mechanism.  Over all questions in the data set.
+# Calculated the expected score if everyone is responding truthfully 
+# for a given mechanism.  Calculated over all questions in a data set.
 def truthful_scores(mechanism):
 	def below_threshold(m, mech):
 		r = False 
@@ -109,7 +111,8 @@ def truthful_scores(mechanism):
 					ys_fac.append((scoring(matrix),(state,category,q)))
 				else:
 					ys_sub.append((scoring(matrix),(state,category,q)))
-		
+	
+	# Order the results by average reward (expected score)
 	ys_fac.sort()
 	ys_sub.sort()
 	
@@ -142,49 +145,57 @@ def truthful_scores(mechanism):
 	plt.xlim([0,10600])
 	plt.ylim([0,1])
 	plt.ylabel('Expected Payment',fontsize = 20)
-	#fig.savefig("Graphs/" + name + " " + str(DIMENSION) + ".png") 
+	fig.savefig("Graphs/" + name + " " + str(DIMENSION) + ".png") 
 	plt.show()
+
+def get_benefit(mech, strat, matrix, p):
+	if mech == "Kamble" or mech == "RPTS":
+		if start == "truth":
+			benefit = ES.true_vs_random(matrix, p, mech)
+		elif strat == "random":
+			benefit = ES.rand_advantage(matrix, p, mech)
+		else:
+			benefit = ES.const_advantage(int(strat), matrix, p, mech)
+	elif mech == "CA":
+		if strat == "truth":
+			benefit = ES.true_vs_random_CA(matrix, p)
+		elif strat == "random":
+			benefit = ES.rand_advantage_CA(matrix, p)
+		else:
+			benefit = ES.const_advantage_CA(int(strat), matrix, p)
+	else:
+		raise ValueError("Invalid Mechanism")
+
+	return benefit
 	
-	
+# Generate a graph that will show the advantage (incentive) gained by adopting either 
+# a truthful strategy, random, or constant strategy when p percent of the population
+# is responding truthfully and 1 - p percent is adopting a different strategy. 
 def gen_graph(mech, matrix, place, category):
-	strats = {"truth" : [], "0" : [], "1" : [],  "random":[]} #"2" : []}
+	strats = {"truth" : [], "0" : [], "1" : [],  "random":[], "2" : []}
 
 	xs = []
 	for p in range(101):
 		p = p / 100.0
 		for strat, scores in strats.items():
-			if mech == "Kamble" or mech == "RPTS":
-				if strat == "truth":
-					score = ES.true_vs_random(matrix, p, mech)
-				elif strat == "random":
-					score = ES.rand_advantage(matrix, p, mech)#ES.random_vs_random
-				else:
-					score = ES.const_advantage(int(strat), matrix, p, mech)#ES.const_vs_rando
-
-			elif mech == "CA":
-				if strat == "truth":
-					score = ES.true_vs_random_CA(matrix, p)
-				elif strat == "random":
-					score = ES.rand_advantage_CA(matrix, p)
-				else:
-					score = ES.const_advantage_CA(int(strat), matrix, p)
+			score = get_benefit(mech, strat, matrix, p)
 			scores.append(score)
 		xs.append(p)
 			
 	fig = plt.figure()
 	fig.suptitle('Advatage to be truthful using ' + mech + ' for ' + place + ", " + category, fontsize = 20)
-	#truth = plt.scatter(xs, strats["truth"], color = 'red')
+	truth = plt.scatter(xs, strats["truth"], color = 'red')
 	rand = plt.scatter(xs, strats["random"], color = 'purple')
 	const_0 = plt.scatter(xs, strats["0"], color = 'blue')
 	const_1 = plt.scatter(xs, strats["1"], color = 'green')
-	#const_2 = plt.scatter(xs, strats["2"], color = 'yellow')
+	const_2 = plt.scatter(xs, strats["2"], color = 'yellow')
 	plt.legend(( const_0, const_1, rand), ("Const-0", "Const-1", "Random"), loc = "upper left", ncol=1)
 	plt.ylabel("Advantage to be Truthful")
 	plt.xlabel("Fraction of Truthful Population")
 	plt.axhline(y=0, xmin=0, xmax=1, linewidth=2, color = 'k')
-	#plt.show()
+	plt.show()
 
-
+# Determine the average incentives for particular state and business category
 def run(state, category):
 	for cat in averages[state]:
 		if cat != category:
@@ -194,24 +205,3 @@ def run(state, category):
 			matrix = averages[state][cat][matrix_type]
 			gen_graph(mech, matrix, state, cat)
 
-#run("cf386e58","a0f1490a")
-#run("2f717ffa", "7a81af3e")
-
-def get_benefit(mech, strat, matrix, p):
-	if mech == "Kamble" or mech == "RPTS":
-		if strat == "random":
-			benefit = ES.rand_advantage(matrix, p, mech)
-		else:
-			benefit = ES.const_advantage(int(strat), matrix, p, mech)
-			#(ES.true_vs_random(matrix, p, mech) - ES.const_vs_random(int(strat), matrix, p, mech))
-			#ES.const_advantage(int(strat), matrix, p, mech)
-	elif mech == "CA":
-		if strat == "random":
-			benefit = ES.rand_advantage_CA(matrix, p)
-		else:
-			benefit = ES.const_advantage_CA(int(strat), matrix, p)
-			#benefit = ES.true_vs_random_CA(matrix, p) - ES.const_vs_random_CA(int(strat), matrix, p)
-	else:
-		raise ValueError("Invalid Mechanism")
-
-	return benefit
