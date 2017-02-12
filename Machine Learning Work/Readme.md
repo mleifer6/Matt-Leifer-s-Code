@@ -1,0 +1,1 @@
+This folder contains some of the work I have done in my Machine Learning class CS181.  
